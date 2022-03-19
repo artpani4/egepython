@@ -1,0 +1,40 @@
+{% extends "tutorial/base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% load socialaccount %}
+{% block content %}
+<div class="mt-3 row justify-content-md-center">
+    <div class="col-6">
+        <h1 class="text-center">Быстрая регистрация</h1>
+        <a  class="btn btn-outline-primary rounded-pill" href="{% provider_login_url 'google'%}" class='link-primary'><svg width="25" height="25" class="tr mu s"><g fill="none" fill-rule="evenodd"><path d="M20.66 12.7c0-.61-.05-1.19-.15-1.74H12.5v3.28h4.58a3.91 3.91 0 0 1-1.7 2.57v2.13h2.74a8.27 8.27 0 0 0 2.54-6.24z" fill="#4285F4"></path><path d="M12.5 21a8.1 8.1 0 0 0 5.63-2.06l-2.75-2.13a5.1 5.1 0 0 1-2.88.8 5.06 5.06 0 0 1-4.76-3.5H4.9v2.2A8.5 8.5 0 0 0 12.5 21z" fill="#34A853"></path><path d="M7.74 14.12a5.11 5.11 0 0 1 0-3.23v-2.2H4.9A8.49 8.49 0 0 0 4 12.5c0 1.37.33 2.67.9 3.82l2.84-2.2z" fill="#FBBC05"></path><path d="M12.5 7.38a4.6 4.6 0 0 1 3.25 1.27l2.44-2.44A8.17 8.17 0 0 0 12.5 4a8.5 8.5 0 0 0-7.6 4.68l2.84 2.2a5.06 5.06 0 0 1 4.76-3.5z" fill="#EA4335"></path></g></svg>Войти через Google</a>
+        <a  class="btn btn-outline-primary rounded-pill" href="{% provider_login_url 'vk'%}" class='link-primary'>
+<svg fill="none" height="25" viewBox="0 0 48 48" width="25" xmlns="http://www.w3.org/2000/svg"><path d="m0 23c0-10.8423 0-16.26346 3.36827-19.63173s8.78943-3.36827 19.63173-3.36827h2c10.8423 0 16.2635 0 19.6317 3.36827 3.3683 3.36827 3.3683 8.78943 3.3683 19.63173v2c0 10.8423 0 16.2635-3.3683 19.6317-3.3682 3.3683-8.7894 3.3683-19.6317 3.3683h-2c-10.8423 0-16.26346 0-19.63173-3.3683-3.36827-3.3682-3.36827-8.7894-3.36827-19.6317z" fill="#2787f5"/><path clip-rule="evenodd" d="m13.0009 15h-3.5008c-1.00024 0-1.2003.4708-1.2003.9898 0 .9271 1.18686 5.525 5.5262 11.6061 2.8929 4.1529 6.9687 6.4041 10.6776 6.4041 2.2253 0 2.5006-.5 2.5006-1.3612v-3.1388c0-1 .2108-1.1996.9154-1.1996.5193 0 1.4094.2596 3.4864 2.2619 2.3737 2.3731 2.765 3.4377 4.1001 3.4377h3.5008c1.0003 0 1.5004-.5 1.2119-1.4867-.3157-.9834-1.449-2.4103-2.9528-4.1016-.816-.9641-2.0399-2.0023-2.4108-2.5215-.5192-.6674-.3709-.9641 0-1.5573 0 0 4.2652-6.007 4.7103-8.0463.2225-.7417 0-1.2866-1.0587-1.2866h-3.5008c-.8901 0-1.3005.4708-1.5231.9898 0 0-1.7802 4.3384-4.3022 7.1565-.816.8157-1.1869 1.0753-1.632 1.0753-.2225 0-.5446-.2596-.5446-1.0011v-6.9339c0-.89-.2583-1.2866-1.0002-1.2866h-5.5013c-.5562 0-.8908.413-.8908.8045 0 .8436 1.261 1.0382 1.391 3.4113v5.1542c0 1.13-.2042 1.3349-.6492 1.3349-1.1868 0-4.0737-4.3578-5.7859-9.3442-.3355-.9692-.6721-1.3607-1.5668-1.3607z" fill="#fff" fill-rule="evenodd"/></svg>Войти через VK</a>
+
+        <h1 class="text-center">Регистрация на сайте</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {% for f in user_form %}
+            <div class="row mt-2 ">
+                <div class="col-6">
+                    <label for="{{f.id_for_label}}" class="form-label">{{f.label}}</label>:
+                </div>
+                <div class="col-6">
+                    {{f}}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-6 text-danger">
+                    {{f.errors}}
+                </div>
+
+            </div>
+            {% endfor%}
+            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+            <button type="submit" class="btn btn-outline-primary">Зарегистрироваться</button>
+            {% if redirect_field_value %}
+<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+{% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

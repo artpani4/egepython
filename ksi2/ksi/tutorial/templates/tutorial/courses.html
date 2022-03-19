@@ -1,0 +1,57 @@
+{% extends 'tutorial/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body{
+        background-image:url({%static 'tutorial/images/bg1.svg'%});
+        background-repeat: no-repeat
+    }
+</style>
+   
+
+
+<div class="container py-3">
+    <header>
+      <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal">Выбор курса</h1>
+        <p class="fs-5 text-muted">Автор тоже хочет кушать и поэтому некоторые темы и задачи доступны только после оплаты. Выберите подходящий курс и получите доступ к интересущим материалам.</p>
+      </div>
+    </header>
+  
+    <main>
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        {%for t in courses%}
+        <div class="col ">
+          <div class="card mb-4 rounded-3 shadow-sm {%if t.priority%}border-success {%endif%}">
+            <div class="card-header py-3 {%if t.priority%}text-white bg-success {%endif%}">
+              <h4 class="my-0 fw-normal">{{t.title}}</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">₽{{t.price}}</h1>
+              <h5 class = 'card-title'>Включает все задачи из тем:</h5>
+              <ul class="list-unstyled mt-3 mb-4">
+                {%for tms in t.theme.all %}
+                <li>{{tms.title}}</li>
+                {% endfor %}
+                
+              </ul>
+              <h5 class = 'border-top'>А также задачи:</h5>
+              <ul class="list-unstyled mt-3 mb-4">
+              {%for tsk in t.task.all %}
+              <li>{{tsk.title}}</li>
+              {% endfor %}
+            </ul>
+            {%if t not in donated%}
+              <button type="button" class="w-100 btn btn-lg btn-outline-primary mt-2">Купить</button>
+            {% else%}
+              <button type="button" class="w-100 btn btn-lg btn-success btn-outline-success mt-2" disabled>Вам уже доступен этот курс</button>
+            {%endif%}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+  
+    </main>
+  </div>
+  {% endblock %}

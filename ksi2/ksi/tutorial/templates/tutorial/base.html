@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link type="text/css" rel="stylesheet" href="{%static 'tutorial/css/bootstrap.css'%}">
+    <link type="text/css" rel="stylesheet" href="{%static 'tutorial/css/style.css'%}">
+    <script src="{%static 'tutorial/js/pyodide/pyodide.js'%}" type="text/javascript"></script>
+    <script src="{%static 'tutorial/js/bootstrap.bundle.min.js'%}" type="text/javascript"></script>
+    <script src="{%static 'tutorial/pyodide.asm.js'%}" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="{%static 'tutorial/js/src-min-noconflict/ace.js'%}" type="text/javascript"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<nav class="navbar  navbar-expand-lg navbar-dark bg-dark ">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{%url 'tutorial:index'%}">
+            <img class="d-block" src="{%static 'tutorial/images/logot.png'%}" alt="" id="logo" width="30px">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav flex-grow-1 mb-2">
+                <li class="nav-item">
+                    <a href="/admin" class="nav-link">Админка</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'sandbox'%}" style="color:yellow" class="nav-link  ">Песочница</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'courses'%}" class="nav-link">Курсы</a>
+                </li>
+            </ul>
+            {% if request.user.is_authenticated %}
+            <ul class="navbar-nav  mb-2">
+                <li class="nav-item">
+                    <a class="nav-link text-info" href="{%url 'profile'%}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0dcaf0"
+                             class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        </svg>
+                        {{request.user.username}}</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'accountksi:logout_user'%}" class="nav-link">Выход</a>
+                </li>
+            </ul>
+            {%else%}
+            <ul class="navbar-nav  mb-2">
+                <li class="nav-item">
+                    <a href="{%url 'accountksi:register'%}?next={{request.path}}" class="nav-link">Регистрация</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'accountksi:login'%}?next={{request.path}}" class="nav-link">Вход</a>
+                </li>
+            </ul>
+            {%endif%}
+        </div>
+    </div>
+</nav>
+{% block menu %}
+{% endblock %}
+{% block content %}
+{% endblock %}
+
+<!-- Footer -->
+<footer class="text-center text-lg-start  text-muted m-3 mt-auto">
+    <section class="border-top">
+        Разработка и поддержка учебника: <a href="http://t.me/artpani" class="link-dark text-decoration-none" >Артем Панов</a><br>
+        Запуск кода на клиенте осуществляется с помощью <a href="https://pyodide.org/en/stable/" class="link-dark text-decoration-none">Pyodide</a> и <a href="https://ace.c9.io/" class="link-dark text-decoration-none">Ace<a/><br>
+        Родилось в 2021
+    </section>
+    <!-- Section: Links  -->
+
+</footer>
+<!-- Footer -->
+</body>
+</html>

@@ -1,0 +1,23 @@
+.animcard:hover {
+  transform: scale(1.05);
+  transition: transform 0.1s ease;
+}
+.editor{
+  border: 1px solid #444
+}
+
+@font-face {
+font-family: "StyleScript-Regular";
+src: url("StyleScript-Regular.ttf") format("truetype");
+font-style: normal;
+font-weight: normal;
+}
+
+#logo{
+opacity:.7;
+transition: opacity .1s
+}
+
+#logo:hover{
+opacity:1
+}

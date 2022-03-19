@@ -1,0 +1,14 @@
+{
+   "scripts": {
+    "migrates": "doppler run -- python manage.py makemigrations && doppler run -- python manage.py migrate",
+    "start": "doppler run -- python manage.py runserver \"$(doppler secrets get SERVER_ADRESS --plain)\"",
+    "all": "npm run migrates && npm run start",
+    "pm2r": "node_modules/pm2/bin/pm2 start \"npm run all\"",
+    "pm2s": "node_modules/pm2/bin/pm2 stop all",
+    "pm2m": "node_modules/pm2/bin/pm2 monit",
+    "update": "git pull && npm run all"
+   },
+  "dependencies": {
+    "pm2": "^5.2.0"
+  }
+}

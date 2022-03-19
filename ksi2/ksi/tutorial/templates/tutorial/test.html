@@ -1,0 +1,33 @@
+{% load static %}
+<div class="col-11 mb-2 mt-3 pb-2 " id="test{{n}}"><!--begin of task test-->
+    <div class="fs-2 ">Тест {{n}}</div>
+    {% if task.withfile %}
+    <div class="row">
+        <div class="col-6">
+            <div class="fs-5 ">Файл {{n}}.txt:</div>
+            <div class="editor" style="height:150px" id="ttfile{{n}}">
+            </div>
+        </div>
+    </div>
+    {%endif%}
+    <div class="row">
+        <div class="col-4">
+            <div class="fs-5 ">Входные данные:</div>
+            <div class="editor" style="height:150px" id="tinput{{n}}">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="fs-5 ">Верные выходные данные:</div>
+            <div class="editor" style="height:150px" id="toutput{{n}}">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="fs-5 ">Ваши выходные данные:</div>
+            <div class="editor" style="height:150px" id="tuserput{{n}}">
+            </div>
+        </div>
+    </div>
+    <!--    <div class=""><img id="pyplotfigure"/></div>-->
+
+</div><!--end of task editor-->
+

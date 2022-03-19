@@ -1,0 +1,49 @@
+{% load static %}
+<div class="col-7 ms-2"><!--begin of theory editor-->
+    <div class="row">
+        <div class="col-4">
+            <button onclick='evaluatePython({{n}})' class="btn btn-success btn mb-1" >
+                <span class="spinner-grow spinner-grow-sm" role="status" style ='display:none' aria-hidden="true" id="button_loading{{n}}"></span>
+                <span class="sr-only" id="button_title{{n}}">Запустить</span></button>
+        </div>
+        <div class="col-12">
+            <div class='w-100 editor'  id="editor{{n}}">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div>Входные данные:</div>
+            <div class="editor" style="height:150px" id="einput{{n}}">
+            </div>
+        </div>
+        <div class="col-6">
+            <div>Вывод:</div>
+            <div class="editor" style="height:150px" id="eoutput{{n}}">this is
+                output
+            </div>
+        </div>
+    </div>
+    {%if withfile %}
+        <div id="efile_title{{n}}" style="display:none">{{filename}}</div>
+        <div style="display:none">Редактор файла:</div>
+        <div class="editor" style="height:150px" id="efile{{n}}">
+        </div>
+    {%endif%}
+<!--    {%if withimg%}-->
+<!--    <div class="col-12 mt-2 ">-->
+<!--        <img src="{%static 'tutorial/images/plot.jpg'%}" class="rounded w-100 mx-auto d-block" style="border:solid 1px black" id="pyplotfigure" alt="Рисуем...">-->
+<!--    </div>-->
+<!--    {%endif%}-->
+
+</div><!--end of task editor-->
+<script>
+      if(typeof pyodide_path === 'undefined'){
+        pyodide_path = '{%static "tutorial/js/pyodide/pyodide.asm.js"%}'
+      }
+     if(typeof info === 'undefined'){
+        info = []
+        }
+     info.push({'n':{{n}}, 'ml':{{ml}}, 'withfile':{{withfile}}, 'filename':"{{filename}}", 'code':"{{code}}", 'in': "{{in}}", 'filecontent':"{{filecontent}}"})
+
+</script>

@@ -1,0 +1,62 @@
+<div class="row gx-0" style=" background-color:#272822"><!--Tricks-->
+    <div class="col-3 pe-0">
+        <a href="{%url 'tips'%}" style = 'font-family:StyleScript-Regular' class="nav-link fs-4 link-danger  text-center">🐍Tips and Tricks🐍</a>
+
+    </div>
+
+    <div class="col-9 ps-0">
+        <div class='w-100 editor position-relative' id="tricks" ></div>
+    </div>
+    <script>
+        let data, tricks_editor, iter_char = 0, num_of_code = 0
+        $.ajax({
+                type: 'GET',
+                url: '/get_tricks/',
+                data : {
+                        },
+                success: function(data_json){
+                    data = JSON.parse(data_json)
+                    tricks_editor = ace.edit("tricks");
+                    tricks_editor.setTheme("ace/theme/monokai");
+                    tricks_editor.session.setMode("ace/mode/python");
+                    document.getElementById("tricks").style.fontSize='16px';
+                    tricks_editor.setOptions({
+            minLines: 4,
+            maxLines: 4
+        })
+                    tricks_editor.setReadOnly('true');
+                    tricks_editor.setValue('')
+                    tricks_editor.clearSelection()
+                    tricks_editor.session.on('change', () => {
+    tricks_editor.renderer.scrollToLine(Number.POSITIVE_INFINITY)
+})
+                    for(i=0; i<data['codes'].length; i++){
+
+                    data['codes'][i] = '#'+data['titles'][i]+'\n'+data['codes'][i].replace(/(\r)/gm, "")
+                    }
+                    typeWriter(0)
+                }
+            })
+        var speed = 100
+        async function typeWriter(n) {
+            if (n>=data['codes'].length){n = 0, iter_char = 0}
+            if (iter_char < data['codes'][n].length) {
+                tricks_editor.setValue(tricks_editor.getValue()+data['codes'][n][iter_char]);
+                tricks_editor.clearSelection()
+                iter_char++;
+            setTimeout(typeWriter.bind(null, n), speed);
+            }
+            else{
+                tricks_editor.setValue(tricks_editor.getValue()+' ');
+                tricks_editor.clearSelection()
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                tricks_editor.setValue('')
+                iter_char = 0
+                n++
+                setTimeout(typeWriter.bind(null, n), speed)
+            }
+        }
+    </script>
+</div>
+
+

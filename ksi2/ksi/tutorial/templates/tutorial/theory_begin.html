@@ -1,0 +1,25 @@
+{% extends 'tutorial/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row my-3 g-0">
+        {% include 'tutorial/sidebar-menu.html'%}
+        <div class="col col-lg-9 col-md-12 ms-4">
+            Тут теория
+            ---------------------------------
+            {%include 'tutorial/theory_editor.html' with n=0 ml=3 withfile=0 code="x = input()\nprint(x)" in="5" filecontent="" filename=""%}
+            ---------------------------------
+            {%include 'tutorial/theory_editor.html' with n=1 ml=3 withfile=0 code="x, z = input(), input()\nprint(z*x)" in="5\n8" filecontent="" filename=""%}
+            ---------------------------------
+            {%include 'tutorial/theory_editor.html' with n=2 ml=3 withfile=1 code="y = input()\nprint(y)" in="6" filecontent="1\n2\n3\n" filename="a.txt"%}
+            ---------------------------------
+            {%include 'tutorial/theory_editor.html' with n=3 ml=3 withfile=1 code="y = input()\nprint(y*10)" in="10" filecontent='5\n3\n2' filename='b.txt'%}
+            ---------------------------------
+
+        </div>
+    </div>
+</div>
+<script src="{%static 'tutorial/js/theoryeditor.js'%}" type="text/javascript"></script>
+
+{% endblock %}

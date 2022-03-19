@@ -1,0 +1,9 @@
+media
+__pycache__
+*.pyc
+ksi2/myenv
+*.sqlite3
+.DS_Store
+.idea/
+node_modules
+ksi/static

@@ -1,0 +1,20 @@
+{% extends 'tutorial/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row my-3 g-0">
+        {% include 'tutorial/sidebar-menu.html'%}
+
+        <div class="col  ms-2 col-lg-9 col-md-12">
+            {%include 'tutorial/tricks.html'%}
+            <div class="col-12">
+    <h4 class="fst-italic">Тестируйте здесь свои идеи, не захламляя редактор кода в задачах. <br>В данном редакторе доступно все, что задумано на этом сайте(работа с файлами, отрисовка графики).<br> Разумеется, автоматическое тестирование отсутствует.</h4>
+    </div>
+<!--            <h2>Тут можно запустить код и проверить разные идеи</h2>-->
+            {%include 'tutorial/editor.html' with n=0 ml=12 withfile=1 withtest=0 withimg=1 authed=request.user.is_authenticated%}
+
+        </div>
+    </div>
+</div>
+<script src="{%static 'tutorial/js/tasktest.js'%}" type="text/javascript"></script>
+{% endblock %}

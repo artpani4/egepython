@@ -1,0 +1,31 @@
+{% extends 'tutorial/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body{
+        background-image:url({%static 'tutorial/images/bg1.svg'%});
+        background-repeat: no-repeat
+    }
+</style>
+    <div class="container" id = 'mybg'> 
+        <div class="row  my-5 g-4">
+        {%for t in themes%}
+            <div class="col col-lg-3 col-md-4">
+                    <div class="card animcard h-100">
+                        <a href="{%url 'tutorial:theory' t.title_url%}" class=" stretched-link">
+                            <img src="{{t.avatar.url}}" class="card-img" onerror="this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMiA5Ljc0bC0yIDEuMDJ2Ny4yNGMtMS4wMDcgMi4wNDEtNS42MDYgMy04LjUgMy0zLjE3NSAwLTcuMzg5LS45OTQtOC41LTN2LTcuNzk2bC0zLTEuODk2IDEyLTUuMzA4IDExIDYuMjMxdjguNzY5bDEgM2gtM2wxLTN2LTguMjZ6bS0xOCAxLjA5NXY2Ljg3M2MuOTU4IDEuMjggNC4yMTcgMi4yOTIgNy41IDIuMjkyIDIuODk0IDAgNi41ODktLjk1OSA3LjUtMi4yNjl2LTYuNDYybC03LjkyMyA0LjAzOS03LjA3Ny00LjQ3M3ptLTEuODgxLTIuMzcxbDkuMDExIDUuNjk0IDkuNzU5LTQuOTc0LTguOTQ0LTUuMDY2LTkuODI2IDQuMzQ2eiIvPjwvc3ZnPg=='" alt="{{t.title}}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{t.title}}
+                                {%if t in locked_themes%}
+                                {%include 'tutorial/locked_icon.html'%}
+                                {%endif%}
+                            </h5>
+                            <p class="card-text">{{t.description}}</p>
+                        </div>
+                    </div>
+            </div>
+        {% endfor%}
+        </div>
+    </div>
+{% endblock %}

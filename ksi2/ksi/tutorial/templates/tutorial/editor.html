@@ -1,0 +1,93 @@
+{% load static %}
+<div class="col-9"><!--begin of task editor-->
+    <div class="row">
+        <div class="col-4">
+            <button onclick='evaluatePython({{n}})' class="btn btn-success btn-lg mb-2" >
+                <span class="spinner-grow spinner-grow-sm" role="status" style ='display:none' aria-hidden="true" id="button_loading{{n}}"></span>
+                <span class="sr-only" id="button_title{{n}}">Запустить</span></button>
+        </div>
+        <div class="col-12">
+            <div class='w-100 editor'  id="editor{{n}}">{{code}}
+<!--                import matplotlib.pyplot as plt-->
+<!--import numpy as np-->
+<!--P=np.linspace(0.7,4,10000)-->
+<!--m=0.7-->
+<!--X = []-->
+<!--Y = []-->
+<!--for u in P:-->
+<!--    X.append(u)-->
+<!--    m = np.random.random()-->
+<!--    for n in range(1001):-->
+<!--      m=(u*m)*(1-m)-->
+<!--    for l in range(1051):-->
+<!--      m=(u*m)*(1-m)-->
+<!--    Y.append(m)-->
+<!--plt.plot(X, Y, ls='', marker=',')-->
+<!--plt.show()-->
+
+<!--import io, base64-->
+<!--buf = io.BytesIO()-->
+<!--plt.savefig(buf, format='png')-->
+<!--buf.seek(0)-->
+<!--img_str = 'data:image/png;base64,' + base64.b64encode(buf.read()).decode('UTF-8')-->
+<!--print(open('a.txt').readlines()*int(input()))-->
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div>Входные данные:</div>
+            <div class="editor" style="height:150px" id="einput{{n}}">
+            </div>
+        </div>
+        <div class="col-6">
+            <div>Вывод:</div>
+            <div class="editor" style="height:150px" id="eoutput{{n}}">this is
+                output
+            </div>
+        </div>
+    </div>
+    {%if withfile %}
+        <input class="mt-2 form-control" type="file" onchange="loadFile({{n}});" id="file{{n}}">
+        <div id="efile_title{{n}}" style="display:none">Редактор файла:</div>
+        <div class="editor" style="height:150px" id="efile{{n}}">
+        </div>
+    {%endif%}
+    {%if withimg%}
+    <div class="col-12 mt-2 ">
+        <img src="{%static 'tutorial/images/plot.jpg'%}" class="rounded w-100 mx-auto d-block" style="border:solid 1px black" id="pyplotfigure" alt="Рисуем...">
+    </div>
+    {%endif%}
+<!--    <div class=""><img id="pyplotfigure"/></div>-->
+
+</div><!--end of task editor-->
+<script>
+      if(typeof pyodide_path === 'undefined'){
+        pyodide_path = '{%static "tutorial/js/pyodide/pyodide.asm.js"%}'
+      }
+      if(typeof test_str === 'undefined' && {{withtest}}){
+        test_obj = JSON.parse(JSON.stringify({{task.test|safe}}))
+      }
+      if(typeof test_file === 'undefined' && {{withfile}}){
+        test_file = '{{test_file}}'
+      }
+     if(typeof info === 'undefined'){
+        info = []
+        }
+     if ('{{authed}}'=='True'){
+        authed = true
+     }
+     else{
+        authed = false
+     }
+     info.push({'n':{{n}}, 'ml':{{ml}}, 'withfile':{{withfile}},'slug':'{{task.slug}}', 'withimg':{{withimg}}})
+     if (authed && {{withtest}}==1){
+        info[0]['withtest'] = 1
+     }
+     else{
+        info[0]['withtest'] = 0
+     }
+</script>

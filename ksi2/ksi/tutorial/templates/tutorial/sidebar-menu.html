@@ -1,0 +1,56 @@
+{% load tutorial_tags %}
+<div class="col col-lg-2 ">
+            <div class="accordion   open" id="ThemesList">
+                {% for t in themes%}
+                  <div class="accordion-item rounded border border-dark mt-1">
+                    <h2 class="accordion-header p-0 " id="{{t.title_url}}">
+                            <button class="pt-0 pb-0 accordion-button {%if t.title_url == theme.title_url%}{%else%}collapsed{%endif%}" type="button" data-bs-toggle="collapse" data-bs-target="#flush-{{t.title_url}}" aria-expanded="false" aria-controls="flush-{{t.title_url}}" role="button">
+                                <h5 class="nav-link ms-auto p-0 " >
+                                    {{t.title}}
+                                    {%if t in locked_themes%}
+                                    {%include 'tutorial/locked_icon.html'%}
+                                    {% endif %}
+                                </h5>
+                            </button>
+                            {% if request.user.is_authenticated %}
+                            <div class="progress position-relative p-0 mt-0" style=" height: 4px;">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100" style="width: {% theme_progress_width request.user t %}%"></div>
+                            </div>
+                            {%endif%}
+                    </h2>
+                    <div id="flush-{{t.title_url}}" class="accordion-collapse collapse {%if t.title_url == theme.title_url%}show{%else%}{%endif%}" aria-labelledby="{{t.title_url}}" >
+                      <div class="accordion-body p-1">
+                          <div class="list-group list-group-flush">
+                              <a  class="fst-italic fw-bolder rounded list-group-item list-group-item-action" href="{%url 'tutorial:theory' t.title_url%}">Теория
+                                {%if t in locked_themes%}
+                                {%include 'tutorial/locked_icon.html'%}
+                                {% endif %}
+                              </a>
+                              {% for taskloop in t.task_set.all %}
+                              {% if task == taskloop %}
+                              <a  class="rounded list-group-item list-group-item-action " style="background-color:#428bca"  href="{%url 'tutorial:task' t.title_url taskloop.slug%}">{{taskloop.title}}
+                                {% if taskloop in locked_tasks%}
+                                {%include 'tutorial/locked_icon.html'%}
+                                {% endif %}  
+                              </a>
+                              {%else%}
+                              {% if taskloop in st%}
+                              <a  class="rounded list-group-item list-group-item-action " style="background-color:rgba(128, 252, 92, 0.3)"  href="{%url 'tutorial:task' t.title_url taskloop.slug%}">{{taskloop.title}}
+                                {% if taskloop in locked_tasks%}
+                                {%include 'tutorial/locked_icon.html'%}                                
+                                {% endif %} </a>
+                              {%else%}
+                              <a  class="rounded list-group-item list-group-item-action  " style="background-color:rgba(227, 235, 241, 0.7)" href="{%url 'tutorial:task' t.title_url taskloop.slug%}">{{taskloop.title}}
+                                {% if taskloop in locked_tasks%}
+                                {%include 'tutorial/locked_icon.html'%}                                {% endif %}  
+                              </a>
+                              {%endif%}
+                              {%endif%}
+                              {% endfor %}
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+            </div>
+</div>

@@ -1,0 +1,168 @@
+{% extends 'tutorial/base.html' %}
+{% load static %}
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<style>
+    body{
+        background-image:url({%static 'tutorial/images/bg1.svg'%});
+        background-repeat: no-repeat
+    }
+</style>
+   
+
+
+<div class="container py-3">
+    <header>
+      <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal">Статистика</h1>
+        <p class="fs-5 text-muted">Тут можно понаблюдать за вашим прогрессом</p>
+      </div>
+    </header>
+  
+    <main>
+      
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        <div class="col-3 ">
+          <h2 class="fw-normal">Среднее число попыток пройти все тесты с первого раза</h2>
+          <p class="fs-2 text-muted" id='avr_att'></p>
+        </div>
+        <div class="col-8 ">
+            <canvas id="attemptions" width="500" height="300"></canvas>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        <div class="col-3 ">
+          <h2 class="fw-normal">Средняя доля тестов, прошедших проверку с первого раза</h2>
+          <p class="fs-2 text-muted" id='avr_rat'></p>
+        </div>
+        <div class="col-8 ">
+            <canvas id="ratios" width="500" height="300"></canvas>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        <div class="col-3 ">
+          <h2 class="fw-normal">Средняя время между первым прочтением задачи и полным прохождением всех тестов (в мин.)</h2>
+          <p class="fs-2 text-muted" id='avr_time'></p>
+        </div>
+        <div class="col-8 ">
+            <canvas id="time" width="500" height="300"></canvas>
+        </div>
+      </div>
+  
+    </main>
+  </div>
+
+  <script>
+      const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
+      att_data = JSON.parse('{{avr_attemptions | safe}}')
+      rat_data = JSON.parse('{{avr_ratios | safe}}')
+      time_data = JSON.parse('{{avr_time | safe}}')
+      $('#avr_att').text(average(att_data['values']).toFixed(1))
+      $('#avr_rat').text(average(rat_data['values']).toFixed(2))
+      $('#avr_time').text(average(time_data['values']).toFixed(2))
+
+      function color_grad(data, big_bad, gap){
+    var colors = []
+    for(var i = 0; i<data.length; i++){
+        var t =  data[i]>gap ? 1 :  0
+        if (big_bad){
+            colors[i] = 'rgba(' + (t*255)+',' + ((1-t)*255)+ ', 0, 0.6)'
+        }
+        else{
+            colors[i] = 'rgba(' + ((1-t)*255)+',' + (t*255)+ ', 0, 0.6)'
+        }
+    }
+    return colors
+}
+
+
+      new Chart(document.getElementById("attemptions"), {
+    type: 'bar',
+    data: {
+      labels: att_data['themes'],
+      datasets: [
+        {
+          label: "",
+          backgroundColor: color_grad(att_data['values'], 1, 4),
+          data: att_data['values']
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      scales: {
+        yAxes: [{
+        ticks: {
+          min: 0,
+          stepSize: 1,
+        }
+      }]
+    },
+      title: {
+        display: true,
+        text: 'Среднее(по задачам) число попыток в каждом разделе '
+      }
+    }
+});
+
+        new Chart(document.getElementById("ratios"), {
+            type: 'bar',
+            data: {
+            labels: att_data['themes'],
+            datasets: [
+                {
+                label: "Доля верных тестов",
+                backgroundColor: color_grad(rat_data['values'], 0, 0.7),
+                data: rat_data['values']
+                }
+            ]
+            },
+            options: {
+            legend: { display: false },
+            scales: {
+        yAxes: [{
+        ticks: {
+          min: 0,
+          max: 1,
+          stepSize: 0.2,
+        }
+      }]
+    },
+            title: {
+                display: true,
+                text: 'Средняя доля правильных тестов'
+            }
+            }
+        });
+
+
+        new Chart(document.getElementById("time"), {
+            type: 'bar',
+            data: {
+            labels: time_data['themes'],
+            datasets: [
+                {
+                label: "Среднее время решения в мин.",
+                backgroundColor: color_grad(time_data['values'], 1, 1.5),
+                data: time_data['values']
+                }
+            ]
+            },
+            options: {
+            legend: { display: false },
+            scales: {
+        yAxes: [{
+        ticks: {
+          min: 0,
+          stepSize: 1,
+        }
+      }]
+    },
+            title: {
+                display: true,
+                text: 'Среднее время решения задачи (в мин.)'
+            }
+            }
+        });
+  </script>
+  {% endblock %}

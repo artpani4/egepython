@@ -1,0 +1,35 @@
+{% extends "tutorial/base.html" %}
+
+{% block title %}Секреты и приемы{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-7">
+    <h4 class="fst-italic">Tips and Tricks - (дословно) секреты и уловки.<br> Здесь вы найдете описание разных тонкостей работы Python, забавных фич и просто того, что не вошло в учебник. Наслаждайтесь!</h4>
+    </div>
+        {%for trick in tricks%}
+    <div class="col-7">
+        <h2 class="text-start">{{trick.title}}</h2>
+        <div class='w-100 editor position-relative' id="trick{{ forloop.counter0 }}" >{{trick.code}}</div>
+        <p><strong>{{trick.comment|safe}}</strong></p>
+    </div>
+    {%endfor%}
+</div>
+<script>
+    trick_obj = {{j|safe}}
+    for(i=0; i<trick_obj['codes'].length; i++){
+        var tricks_editor = ace.edit("trick"+i);
+        tricks_editor.setTheme("ace/theme/monokai");
+        tricks_editor.session.setMode("ace/mode/python");
+        document.getElementById("trick"+i).style.fontSize='16px';
+        tricks_editor.setOptions({
+            minLines: trick_obj['codes'][i].split(/\r\n|\r|\n/).length+1,
+            maxLines: trick_obj['codes'][i].split(/\r\n|\r|\n/).length+1
+        })
+        tricks_editor.setReadOnly('true');
+        tricks_editor.setValue(trick_obj['codes'][i])
+        tricks_editor.clearSelection()
+    }
+</script>
+
+{% endblock %}
