@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 from tutorial.views import *
+from django.views.static import serve
 
 
 urlpatterns = [
@@ -32,6 +33,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('courses/', courses, name = 'courses'),
     path('profile/', profile, name = 'profile'),
+    path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+    path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

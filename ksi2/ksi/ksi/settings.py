@@ -101,8 +101,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ksi.wsgi.application'
-print('------------',os.environ.get('ENV'))
-print(os.environ.get('DB_PORT'))
 if os.environ.get('ENV') == "PROD":
     DATABASES = {
       'default': {
