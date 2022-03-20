@@ -1,7 +1,7 @@
 {
    "scripts": {
     "migrates": "doppler run -- python manage.py makemigrations && doppler run -- python manage.py migrate",
-    "start": "doppler run -- python manage.py runserver \"$(doppler secrets get SERVER_ADRESS --plain)\"",
+    "start": "doppler run -- python manage.py runserver \"$(doppler secrets get SERVER_ADRESS --plain)\" --insecure ",
     "collect": "doppler run -- python manage.py collectstatic --noinput",
     "all": "npm run migrates && npm run collect && npm run start",
     "pm2r": "node_modules/pm2/bin/pm2 start \"npm run all\"",
