@@ -33,10 +33,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('courses/', courses, name = 'courses'),
     path('profile/', profile, name = 'profile'),
-    path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
-    path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = page_not_found
 handler500 = page_not_found1
