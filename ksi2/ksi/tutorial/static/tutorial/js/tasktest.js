@@ -10,7 +10,7 @@ ttfiles = []
 
 var nn//для evaluatePython
 if (info[0]['withfile']==1){
-var modified_test_file = test_file.split('----------\r\n')
+var modified_test_file = test_file.split('\n----\n')
 }
 if(info[0]['withtest']){
     right_tests = 0
