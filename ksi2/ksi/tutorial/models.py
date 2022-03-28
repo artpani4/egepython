@@ -21,7 +21,7 @@ def course_avatar_directory_path(instance, filename):
     return 'avat_course/{}'.format( filename)
 
 def task_testfile_directory_path(instance, filename):
-    return 'test_files/{}.txt'.format(instance.title_url)
+    return 'test_files/{}.txt'.format(filename)
 
 
 
