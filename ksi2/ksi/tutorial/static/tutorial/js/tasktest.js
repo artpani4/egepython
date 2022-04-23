@@ -213,7 +213,7 @@ input = test_input
         if (info[0]['withfile']==1){
             await pyodide.runPythonAsync('test_with_file('+i+')');
         }
-        o = pyodide.runPython("sys.stdout.getvalue()")
+        o = await pyodide.runPythonAsync("sys.stdout.getvalue()")
         tuserputs[i].setValue(o)
         tuserputs[i].clearSelection()
         if (o!=out_test){
